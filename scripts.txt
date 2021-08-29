@@ -1,0 +1,74 @@
+#https://medium.com/fullstackai/how-to-deploy-a-simple-flask-app-on-cloud-run-with-cloud-endpoint-e10088170eb7
+
+MY_PROJECT_ID=Footy
+# Build container
+docker build -t gcr.io/$MY_PROJECT_ID/aa-ms:latest .
+docker push gcr.io/$MY_PROJECT_ID/aa-ms:latest
+
+# Deploy a Docker image on Cloud Run
+gcloud run deploy aa-ms \
+ --image gcr.io/$MY_PROJECT_ID/aa-ms:latest \
+ --region europe-west1 \
+ --platform managed \
+ --memory 2Gi \
+
+# URL for Flask application on Cloud Run
+APPLICATION_URL=https://aa-ms-5rxiwzzkdq-ew.a.run.app
+## Also need to have parameters below
+MY_SERVICE_ACCOUNT_ADDRESS=sample-jwt-token@footy-323809.iam.gserviceaccount.com
+AUD_URL=https://flask-app-v2-xfounu4cnq-ew.a.run.app
+
+# Deploy the config file
+gcloud endpoints services deploy cloud_endpoint_config.yaml \
+  --project=$MY_PROJECT_ID
+
+# Configuration ID is now given
+CONFIG_ID=2021-03-14r0
+chmod +x gcloud_build_image
+./gcloud_build_image -s $ENDPOINT_HOST -c $CONFIG_ID -p $MY_PROJECT_ID
+
+# Re-deploy the gateway with the new docker image
+gcloud run deploy flaskapp-cr-v2-gateway \
+  --image gcr.io/$MY_PROJECT_ID/endpoints-runtime-serverless:2.25.0-$ENDPOINT_HOST-$CONFIG_ID
+  --allow-unauthenticated \
+  --platform managed \
+  --project $MY_PROJECT_ID \
+  --region europe-west1
+
+#######################################################################################################################
+# Now v3 for firebase
+gcloud run deploy flask-app-v3 \
+ --image gcr.io/$MY_PROJECT_ID/flask-app:v1 \
+ --region europe-west1 \
+ --platform managed \
+ --memory 128Mi \
+
+ # Create a Cloud Endpoint on Cloud Run to act as a Gateway for the flask app
+gcloud run deploy flaskapp-cr-v3-gateway \
+  --image "gcr.io/endpoints-release/endpoints-runtime-serverless:2.17.0" \
+  --allow-unauthenticated \
+  --platform managed \
+  --project $MY_PROJECT_ID \
+  --region europe-west1
+
+# URL for Flask application on Cloud Run
+APPLICATION_URL=https://flask-app-v3-xfounu4cnq-ew.a.run.app
+# URL for Cloud Endpoint on Cloud Run
+ENDPOINT_HOST=flaskapp-cr-v3-gateway-xfounu4cnq-ew.a.run.app
+
+# Deploy the config file
+gcloud endpoints services deploy cloud_endpoint_config_v3.yaml \
+  --project=$MY_PROJECT_ID
+
+# Configuration ID is now given
+CONFIG_ID=2021-03-14r0
+chmod +x gcloud_build_image
+./gcloud_build_image -s $ENDPOINT_HOST -c $CONFIG_ID -p $MY_PROJECT_ID
+
+# Re-deploy the gateway with the new docker image
+gcloud run deploy flaskapp-cr-v3-gateway \
+  --image gcr.io/$MY_PROJECT_ID/endpoints-runtime-serverless:2.25.0-$ENDPOINT_HOST-$CONFIG_ID
+  --allow-unauthenticated \
+  --platform managed \
+  --project $MY_PROJECT_ID \
+  --region europe-west1

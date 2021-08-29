@@ -1,7 +1,7 @@
 import numpy as np
 
-from aa import AA
-from clustering import ArchetypalAnalysis
+from bookie_clustering_ms.aa import AA
+from bookie_clustering_ms.clustering import ArchetypalAnalysis
 
 archetype = AA()
 archetype_model = ArchetypalAnalysis(n_archetypes=5, iterations=3, tmax=300)

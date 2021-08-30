@@ -32,7 +32,7 @@ class AA:
         pass
 
     def european_leagues(self):
-        df_all = read_bigquery('international_teams')
+        df_all = read_bigquery('international_teams_current')
         df_european_leagues = df_all.copy()
 
         return df_european_leagues

@@ -27,6 +27,7 @@ def write(df, project_id, output_dataset_id, output_table_name, credentials):
     print("Query complete. The table is updated.")
 
 
+
 class AA:
     def __init__(self):
         pass

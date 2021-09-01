@@ -1,0 +1,13 @@
+#https://medium.com/fullstackai/how-to-deploy-a-simple-flask-app-on-cloud-run-with-cloud-endpoint-e10088170eb7
+
+MY_PROJECT_ID=Footy
+# Build container
+docker build -t gcr.io/$MY_PROJECT_ID/aa-ms:latest .
+docker push gcr.io/$MY_PROJECT_ID/aa-ms:latest
+
+# Deploy a Docker image on Cloud Run
+gcloud run deploy aa-ms \
+ --image gcr.io/$MY_PROJECT_ID/aa-ms:latest \
+ --region europe-west1 \
+ --platform managed \
+ --memory 2Gi \

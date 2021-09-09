@@ -1,8 +1,0 @@
-docker build -t gcr.io/$MY_PROJECT_ID/aa-ms:latest .
-docker push gcr.io/$MY_PROJECT_ID/aa-ms:latest
-
-gcloud run deploy aa-ms \
- --image gcr.io/$MY_PROJECT_ID/aa-ms:latest \
- --region europe-west1 \
- --platform managed \
- --memory 2Gi \

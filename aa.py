@@ -101,7 +101,7 @@ class AA:
 
     def aa_analysis(self):
         # TODO: FIX 5 ARCHETYPES LIMIT
-        archetypal = ArchetypalAnalysis(n_archetypes=5, iterations=5, tmax=300)
+        archetypal = ArchetypalAnalysis(n_archetypes=5, iterations=10, tmax=300)
         model = archetypal.fit(self.matrix())
 
         return model

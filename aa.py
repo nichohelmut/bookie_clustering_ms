@@ -27,7 +27,6 @@ def write(df, project_id, output_dataset_id, output_table_name, credentials):
     print("Query complete. The table is updated.")
 
 
-
 class AA:
     def __init__(self):
         pass
@@ -38,55 +37,42 @@ class AA:
 
         return df_european_leagues
 
-    # def climbers(self):
-    #
-    #     df_germany = bq_reader.read_bigquery('germany_teams')
-    #
-    #     df_germany_second = df_germany[df_germany['divison'] == 'second']
-    #     df_fuerth = df_germany_second[df_germany_second['common_name'] == 'Greuther Fürth']
-    #
-    #     path_bl = os.path.join(path_to_t_stats, "germany-bundesliga-teams-2019-to-2020-stats.csv")
-    #     df_temas_last = pd.read_csv(path_bl)
-    #
-    #     df_dusseldorf = df_temas_last[df_temas_last['common_name'] == 'Fortuna Düsseldorf']
-    #     df_paderborn = df_temas_last[df_temas_last['common_name'] == 'Paderborn']
-    #
-    #     path_teams_last_first = os.path.join(path_to_t_stats, 'germany-bundesliga-teams-2018-to-2019-stats.csv')
-    #     df_teams_last_first = pd.read_csv(path_teams_last_first)
-    #
-    #     df_nueremberg = df_teams_last_first[df_teams_last_first['common_name'] == 'Nürnberg']
-    #     df_hannover = df_teams_last_first[df_teams_last_first['common_name'] == 'Hannover 96']
-    #     df_stuttgart = df_teams_last_first[df_teams_last_first['common_name'] == 'Stuttgart']
-    #
-    #     path_teams_last_17_18 = os.path.join(path_to_t_stats, 'germany-bundesliga-teams-2017-to-2018-stats.csv')
-    #     df_teams_last_17_18 = pd.read_csv(path_teams_last_17_18)
-    #     df_hsv = df_teams_last_17_18[df_teams_last_17_18['common_name'] == 'Hamburger SV']
-    #
-    #     path_teams_last_16_17 = os.path.join(path_to_t_stats, 'germany-bundesliga-teams-2016-to-2017-stats.csv')
-    #     df_teams_last_16_17 = pd.read_csv(path_teams_last_16_17)
-    #     df_darmstadt = df_teams_last_16_17[df_teams_last_16_17['common_name'] == 'Darmstadt 98']
-    #     df_ingolstadt = df_teams_last_16_17[df_teams_last_16_17['common_name'] == 'Ingolstadt']
-    #
-    #     df_league_climbers = pd.concat(
-    #         [df_nueremberg, df_bielefeld, df_hannover, df_stuttgart, df_hsv, df_darmstadt, df_ingolstadt, df_dusseldorf,
-    #          df_paderborn], sort=False)
-    #     df_league_climbers.reset_index(inplace=True)
-    #     df_league_climbers.drop("index", axis=1, inplace=True)
-    #     df_all_climbers = df_league_climbers.copy()
-    #
-    #     return df_all_climbers
+    def climbers(self):
 
-    # def top_leagues_with_climbers(self):
-    #     # to make sure both input dfs have the same columns
-    #     df_all = pd.concat([self.european_leagues()[self.climbers().columns], self.climbers()], sort=False)
-    #     df_all.reset_index(inplace=True)
-    #     df_all.drop("index", axis=1, inplace=True)
-    #     df_total = df_all.copy()
-    #
-    #     return df_total
+        df_germany = read_bigquery('germany_teams')
+        # //TODO: REMOVE DIVISION FROM SOURCE CSVs
+        del df_germany['divison']
+
+        df_bremen = df_germany[df_germany['common_name'] == 'Werder Bremen'].sort_values('season').tail(1)
+        df_dusseldorf = df_germany[df_germany['common_name'] == 'Fortuna Düsseldorf'].sort_values('season').tail(1)
+        df_paderborn = df_germany[df_germany['common_name'] == 'Paderborn'].sort_values('season').tail(1)
+        df_nueremberg = df_germany[df_germany['common_name'] == 'Nürnberg'].sort_values('season').tail(1)
+        df_hannover = df_germany[df_germany['common_name'] == 'Hannover 96'].sort_values('season').tail(1)
+        df_stuttgart = df_germany[df_germany['common_name'] == 'Stuttgart'].sort_values('season').tail(1)
+        df_hsv = df_germany[df_germany['common_name'] == 'Hamburger SV'].sort_values('season').tail(1)
+        df_darmstadt = df_germany[df_germany['common_name'] == 'Darmstadt 98'].sort_values('season').tail(1)
+        df_schalke = df_germany[df_germany['common_name'] == 'Schalke 04'].sort_values('season').tail(1)
+
+        df_league_climbers = pd.concat(
+            [df_nueremberg, df_bremen, df_hannover, df_stuttgart, df_hsv, df_darmstadt, df_dusseldorf,
+             df_paderborn, df_schalke], sort=False)
+        df_league_climbers.reset_index(inplace=True)
+        df_league_climbers.drop("index", axis=1, inplace=True)
+        df_all_climbers = df_league_climbers.copy()
+
+        return df_all_climbers
+
+    def top_leagues_with_climbers(self):
+        # to make sure both input dfs have the same columns
+        df_all = pd.concat([self.european_leagues()[self.climbers().columns], self.climbers()], sort=False)
+        df_all.reset_index(inplace=True)
+        df_all.drop("index", axis=1, inplace=True)
+        df_total = df_all.copy()
+
+        return df_total
 
     def matrix(self):
-        df_all = self.european_leagues()
+        df_all = self.top_leagues_with_climbers()
         df_all.set_index("team_name", inplace=True)
         df_all = df_all.T
 
@@ -112,7 +98,7 @@ class AA:
         return A
 
     def data_labels(self, A):
-        teamsList = self.european_leagues()['team_name']
+        teamsList = self.top_leagues_with_climbers()['team_name']
         temasColumnOrdering = {x: y for y, x in enumerate(teamsList)}
         d_labels = {v: k for k, v in temasColumnOrdering.items()}
 
@@ -134,7 +120,7 @@ class AA:
         string = 'aa_'
         df_aa_result.columns = [string + x for x in df_aa_result.columns]
 
-        df_teams_with_aa = pd.concat([self.european_leagues(), df_aa_result], axis=1)
+        df_teams_with_aa = pd.concat([self.top_leagues_with_climbers(), df_aa_result], axis=1)
         df_teams_only_aa = df_teams_with_aa.iloc[:, 280:]
         df_teams_only_aa['common_name'] = df_teams_with_aa['common_name']
         self.data_labels(A)

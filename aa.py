@@ -41,7 +41,7 @@ class AA:
 
         df_germany = read_bigquery('germany_teams')
         # //TODO: REMOVE DIVISION FROM SOURCE CSVs
-        del df_germany['divison']
+        # del df_germany['divison']
 
         df_bremen = df_germany[df_germany['common_name'] == 'Werder Bremen'].sort_values('season').tail(1)
         df_dusseldorf = df_germany[df_germany['common_name'] == 'Fortuna Düsseldorf'].sort_values('season').tail(1)

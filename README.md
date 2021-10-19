@@ -2,9 +2,14 @@
 <p>
 </p>
 
-This repository is part one of my journey to predict football results.
-<p>
-</p>
+Bookie football predictions overview:
+<ol type="1">
+  <li><b>https://github.com/nichohelmut/bookie_clustering_ms</b></li>
+  <li>https://github.com/nichohelmut/bookie_xgb_preprocess</li>
+  <li>https://github.com/nichohelmut/bookie_xgb_analysis</li>
+  <li>https://github.com/nichohelmut/bookie_result_check</li>
+</ol>
+
 I am applying the Archetype Analysis(AA) as part of the feature engineering.
 The AA is a way of dimensionality reduction to point out in a dataset, a certain number of archetypes. 
 Classical archetypes to be expected are high performing clubs like Real Madrid or Bayern Munich. 

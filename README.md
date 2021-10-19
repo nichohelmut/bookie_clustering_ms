@@ -4,6 +4,7 @@
 
 Bookie football predictions overview:
 <ol type="1">
+  <li>https://github.com/nichohelmut/bookie_weekly_import_ms</li>
   <li><b>https://github.com/nichohelmut/bookie_clustering_ms</b></li>
   <li>https://github.com/nichohelmut/bookie_xgb_preprocess</li>
   <li>https://github.com/nichohelmut/bookie_xgb_analysis</li>

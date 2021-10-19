@@ -11,6 +11,9 @@ Bookie football predictions overview:
   <li>https://github.com/nichohelmut/bookie_result_check</li>
 </ol>
 
+This microservice is run a GCP Cloud Engine VM. The VM is triggered every Thursday by a Pub/Sub event and saves the results in Bigquery Table.
+<p>
+</p>
 I am applying the Archetype Analysis(AA) as part of the feature engineering.
 The AA is a way of dimensionality reduction to point out in a dataset, a certain number of archetypes. 
 Classical archetypes to be expected are high performing clubs like Real Madrid or Bayern Munich. 

@@ -2,17 +2,17 @@
 <p>
 </p>
 
-> This repository is part of my journey to predict football results.
+This repository is part of my journey to predict football results.
 <p>
 </p>
-> I am applying the Archetype Analysis(AA) as part of the feature engineering.
-> The AA is a way of dimensionality reduction to point out in a dataset, a certain number of archetypes. 
-> Classical archetypes to be expected are high performing clubs like Real Madrid or Bayern Munich. 
-> But also, medium and low preforming clubs can create archetypes in certain combinations of data, which can help to describe similarly performing teams.
+I am applying the Archetype Analysis(AA) as part of the feature engineering.
+The AA is a way of dimensionality reduction to point out in a dataset, a certain number of archetypes. 
+Classical archetypes to be expected are high performing clubs like Real Madrid or Bayern Munich. 
+But also, medium and low preforming clubs can create archetypes in certain combinations of data, which can help to describe similarly performing teams.
 <p>
 </p>
-> The original code can be found: https://www.miller-blog.com/archetypal-analysis/
-> I adapted it a little bit, to better suite my usecase.
+The original code can be found: https://www.miller-blog.com/archetypal-analysis/
+I adapted it a little bit, to better suite my usecase.
 
 ## Author
 

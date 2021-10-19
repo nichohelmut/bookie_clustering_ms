@@ -2,7 +2,7 @@
 <p>
 </p>
 
-This repository is part of my journey to predict football results.
+This repository is part one of my journey to predict football results.
 <p>
 </p>
 I am applying the Archetype Analysis(AA) as part of the feature engineering.

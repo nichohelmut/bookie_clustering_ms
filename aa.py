@@ -121,7 +121,7 @@ class AA:
         df_aa_result.columns = [string + x for x in df_aa_result.columns]
 
         df_teams_with_aa = pd.concat([self.top_leagues_with_climbers(), df_aa_result], axis=1)
-        df_teams_only_aa = df_teams_with_aa.iloc[:, 280:]
+        df_teams_only_aa = df_teams_with_aa.iloc[:, -5:]
         df_teams_only_aa['common_name'] = df_teams_with_aa['common_name']
         self.data_labels(A)
         credentials, project_id = google.auth.default()
